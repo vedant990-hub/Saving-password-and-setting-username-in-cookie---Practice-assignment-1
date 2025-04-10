@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cookie Count Tracker</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cookie Counter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    .counter {
+      font-size: 1.5rem;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
-
 <body>
-    <h1>Welcome to the Cookie Count Tracker!</h1>
-    <p>Page views for this session:</p>
-    <div id="countDisplay">Loading count...</div>
+  <h1>🍪 Cookie Counter</h1>
+  <p>This page counts how many times you've loaded it.</p>
+  <div class="counter" id="counter"></div>
+
+  <script>
+    // Function to get a cookie value by name
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    // Function to set a cookie
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+    }
+
+    // Initialize or increment the count
+    let count = parseInt(getCookie("count")) || 0;
+    count++; // Increment on every page load
+    setCookie("count", count, 7); // Store for 7 days
+
+    // Display the count
+    document.getElementById("counter").textContent = `You've visited this page ${count} time(s).`;
+  </script>
 </body>
-
-<script src="./script.js"></script>
-
 </html>
